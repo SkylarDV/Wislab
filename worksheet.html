@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Wislab - Werkblad</title>
+	<link rel="icon" href="assets/fav.png" type="image/png">
+	<style>
+		:root {
+			--paper-width: 210mm;
+			--paper-height: 297mm;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			background: #f2f2f2;
+			font-family: "Trebuchet MS", Verdana, sans-serif;
+		}
+
+		.toolbar {
+			max-width: var(--paper-width);
+			margin: 12px auto;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0 8px;
+		}
+
+		.toolbar button,
+		.toolbar a {
+			font-size: 1rem;
+			padding: 8px 12px;
+			display: inline-block;
+			background: #ffffff;
+			color: var(--accent, #2b7a78);
+			border: 1px solid rgba(0, 0, 0, 0.06);
+			border-radius: 6px;
+			text-decoration: none;
+			box-shadow: 0 4px 10px rgba(11,11,11,0.03);
+			transition: transform .08s ease, background .08s ease;
+		}
+		.toolbar button:hover,
+		.toolbar a:hover{
+			transform: translateY(-1px);
+			background: linear-gradient(#fff,#f7f9f9);
+		}
+
+		.sheet {
+			width: var(--paper-width);
+			min-height: var(--paper-height);
+			margin: 0 auto 16px;
+			background: #ffffff;
+			padding: 16mm;
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+			display: grid;
+			grid-template-rows: auto 1fr auto;
+		}
+
+		h1 {
+			margin: 0 0 6mm;
+			text-align: center;
+			font-size: 30px;
+		}
+
+		.meta {
+			margin: 0 0 8mm;
+			text-align: center;
+			font-size: 14px;
+		}
+
+		.exercise-list {
+			column-count: 2;
+			column-gap: 14mm;
+		}
+
+		.term-b.blank{
+			display:inline-block;
+			min-width:2.5ch;
+			border-bottom: none;
+			text-align:center;
+			padding-bottom:0;
+		}
+
+		#exerciseList{ 
+			align-self: center;
+		}
+
+		.exercise-row {
+			break-inside: avoid;
+			font-size: 22px;
+			line-height: 1.9;
+			white-space: nowrap;
+			display: grid;
+			grid-template-columns: 3ch 1ch 3ch 1ch 1fr;
+			align-items: center;
+			column-gap: 10px;
+			margin-bottom: 10px; 
+			font-family: "Segoe UI", Arial, sans-serif;
+			font-variant-numeric: tabular-nums;
+		}
+
+		.term-a,
+		.term-b {
+			text-align: center;
+		}
+
+		.op,
+		.eq {
+			text-align: center;
+		}
+
+		.answer-space {
+			min-height: 20px;
+		}
+
+		.wizard-wrap {
+			margin-top: 10mm;
+			text-align: center;
+		}
+
+		.wizard {
+			width: 500px;
+			max-width: 70%;
+			height: auto;
+		}
+
+		.empty {
+			text-align: center;
+			margin-top: 30px;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		@page {
+			size: A4;
+			margin: 10mm;
+		}
+
+		@media print {
+			body {
+				background: #ffffff;
+			}
+
+			.toolbar {
+				display: none;
+			}
+
+			.sheet {
+				box-shadow: none;
+				margin: 0;
+				width: 100%;
+				min-height: auto;
+				padding: 0;
+			}
+
+			.wizard {
+				width: 400px;
+				max-width: 60%;
+			}
+		}
+	</style>
+</head>
+<body data-page="worksheet">
+	<div class="toolbar">
+		<a href="index.html">Terug</a>
+		<button id="printButton" type="button">Print</button>
+	</div>
+
+	<main class="sheet">
+		<h1>Werkblad Rekenen</h1>
+		<p id="worksheetMeta" class="meta"></p>
+		<div id="exerciseList" class="exercise-list"></div>
+		<div class="wizard-wrap">
+			<img class="wizard" src="assets/Wizard.png"/>
+		</div>
+		<div id="emptyState" class="empty hidden">
+			Geen werkblad gevonden. Ga terug en genereer eerst oefeningen.
+		</div>
+	</main>
+
+	<script src="generateSheet.js"></script>
+</body>
+</html>

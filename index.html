@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wislab - Rekenoefeningen Generator</title>
+    <link rel="icon" href="assets/fav.png" type="image/png">
+    <style>
+        :root{
+            --accent:#2b7a78;
+            --accent-2:#17b1a6;
+            --muted:#60636a;
+            --bg:#fbfdfe;
+            --paper:#ffffff;
+            --radius:8px;
+        }
+
+        *{box-sizing:border-box}
+
+        body{
+            background:var(--bg);
+            color:#111;
+            line-height:1.45;
+        }
+
+        body[data-page="index"]{
+            font-family: "Trebuchet MS", Verdana, sans-serif;
+            max-width:900px;
+            margin:24px auto;
+            padding:0 16px;
+        }
+
+        h1{color:var(--accent);margin-bottom:6px}
+
+        .tabs{margin-bottom:14px;display:flex;gap:8px}
+        .tabs a{
+            display:inline-block;
+            padding:8px 12px;
+            background:var(--paper);
+            border:1px solid rgba(0,0,0,0.06);
+            color:var(--accent);
+            border-radius:6px;
+            text-decoration:none;
+            box-shadow:0 4px 10px rgba(11,11,11,0.03);
+            transition:transform .08s ease, background .08s ease;
+        }
+        .tabs a:hover{transform:translateY(-1px);background:linear-gradient(#fff,#f7f9f9)}
+
+        .lists{display:grid;gap:14px}
+        .tot20.lists{grid-template-columns:1fr 1fr}
+        .tot100.lists{grid-template-columns:repeat(3,1fr)}
+        .lists > div{background:var(--paper);padding:12px;border-radius:6px;border:1px solid rgba(0,0,0,0.03)}
+
+        ul{list-style:none;padding-left:0;margin:0}
+        li{margin:6px 0;display:flex;align-items:center;gap:8px}
+        label{cursor:pointer;color:var(--muted)}
+
+        .hidden{display:none}
+
+        .actions{margin-top:18px}
+
+        button{
+            background:var(--accent);
+            color:#fff;
+            border:0;
+            padding:10px 14px;
+            border-radius:6px;
+            font-size:1rem;
+            cursor:pointer;
+            box-shadow:0 6px 18px rgba(23,177,166,0.12);
+        }
+        button:hover{background:var(--accent-2)}
+
+        .error{color:#b00020;margin-top:10px}
+
+        @media (max-width:840px){
+            .tot100.lists{grid-template-columns:repeat(2,1fr)}
+        }
+        @media (max-width:640px){
+            body[data-page="index"]{padding:0 12px}
+            .tot20.lists,.tot100.lists{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body data-page="index">
+    <h1>Wislab - Rekenoefeningen Generator</h1>
+    <div class="tabs">
+        <a href="?max=20">Tot 20</a>
+        <a href="?max=100">Tot 100</a>
+    </div>
+
+    <div class="tot20 lists">
+        <div>
+            <ul>
+                <li><input name="T+E" type="checkbox"> <label for="T+E">T + E</label></li>
+                <li><input name="E+T" type="checkbox"> <label for="E+T">E + T</label></li>
+                <li><input name="TE+E" type="checkbox"> <label for="TE+E">TE + E</label></li>
+                <li><input name="E+TE" type="checkbox"> <label for="E+TE">E + TE</label></li>
+                <li><input name="TE-E" type="checkbox"> <label for="TE-E">TE - E</label></li>
+                <li><input name="TE-TE" type="checkbox"> <label for="TE-TE">TE - TE</label></li>
+            </ul>
+        </div>
+        
+        <div>
+            <ul>
+                <li><input name="20-E" type="checkbox"> <label for="20-E">20 - E</label></li>
+                <li><input name="20-TE" type="checkbox"> <label for="20-TE">20 - TE</label></li>
+                <li><input name="E+Emb" type="checkbox"> <label for="E+Emb">E + E mb</label></li>
+                <li><input name="TE-Emb" type="checkbox"> <label for="TE-Emb">TE - E mb</label></li>
+                <li><input name="TE+E=T" type="checkbox"> <label for="TE+E=T">TE + ? = T</label></li>
+                <li><input name="TE-E=T" type="checkbox"> <label for="TE-E=T">TE - ? = T</label></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tot100 hidden lists">
+        <div>
+            <ul>
+                <li><input name="T+T" type="checkbox"> <label for="T+T">T + T</label></li>
+                <li><input name="T-T" type="checkbox"> <label for="T-T">T - T</label></li>
+                <li><input name="T+E" type="checkbox"> <label for="T+E">T + E</label></li>
+                <li><input name="E+T" type="checkbox"> <label for="E+T">E + T</label></li>
+                <li><input name="TE-E=T" type="checkbox"> <label for="TE-E=T">TE - E = T</label></li>
+                <li><input name="TE-T=E" type="checkbox"> <label for="TE-T=E">TE - T = E</label></li>
+                <li><input name="T+TE" type="checkbox"> <label for="T+TE">T + TE</label></li>
+                <li><input name="TE+T" type="checkbox"> <label for="TE+T">TE + T</label></li>
+                <li><input name="TE+E" type="checkbox"> <label for="TE+E">TE + E</label></li>
+                <li><input name="E+TE" type="checkbox"> <label for="E+TE">E + TE</label></li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li><input name="TE-E" type="checkbox"> <label for="TE-E">TE - E</label></li>
+                <li><input name="TE+TE" type="checkbox"> <label for="TE+TE">TE + TE</label></li>
+                <li><input name="TE-TE" type="checkbox"> <label for="TE-TE">TE - TE</label></li>
+                <li><input name="TE-T=TE" type="checkbox"> <label for="TE-T=TE">TE - T = TE</label></li>
+                <li><input name="TE+E=T" type="checkbox"> <label for="TE+E=T">TE + E = T</label></li>
+                <li><input name="TE+TE=T" type="checkbox"> <label for="TE+TE=T">TE + TE = T</label></li>
+                <li><input name="TE-TE=T" type="checkbox"> <label for="TE-TE=T">TE - TE = T</label></li>
+                <li><input name="T-E" type="checkbox"> <label for="T-E">T - E</label></li>
+                <li><input name="T-TE" type="checkbox"> <label for="T-TE">T - TE</label></li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li><input name="TE+Emb" type="checkbox"> <label for="TE+Emb">TE + E mb</label></li>
+                <li><input name="TE-Emb" type="checkbox"> <label for="TE-Emb">TE - E mb</label></li>
+                <li><input name="TE+TEmb" type="checkbox"> <label for="TE+TEmb">TE + TE mb</label></li>
+                <li><input name="TE-TEmb" type="checkbox"> <label for="TE-TEmb">TE - TE mb</label></li>
+                <li><input name="TE+E=T" type="checkbox"> <label for="TE+E=T">TE + ? = T</label></li>
+                <li><input name="TE-E=T" type="checkbox"> <label for="TE-E=T">TE - ? = T</label></li>
+                <li><input name="H-T" type="checkbox"> <label for="H-T">H - T</label></li>
+                <li><input name="H-E" type="checkbox"> <label for="H-E">H - E</label></li>
+                <li><input name="H-TE" type="checkbox"> <label for="H-TE">H - TE</label></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button id="generateButton" type="button">Genereer Werkblad</button>
+        <p id="selectionError" class="error hidden">Kies minstens 1 soort oefening.</p>
+    </div>
+
+    <script src="generateSheet.js"></script>
+</body>
+</html>
