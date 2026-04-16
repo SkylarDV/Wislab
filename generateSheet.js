@@ -355,6 +355,8 @@
 		const meta = document.querySelector('#worksheetMeta');
 		const empty = document.querySelector('#emptyState');
 		const printButton = document.querySelector('#printButton');
+		const nameInput = document.querySelector('#studentName');
+		const sheet = document.querySelector('.sheet');
 
 		if (!raw) {
 			empty.classList.remove('hidden');
@@ -417,7 +419,22 @@
 		table.appendChild(tbody);
 		list.appendChild(table);
 
+		const syncPrintableNameVisibility = () => {
+			if (!nameInput || !sheet) {
+				return;
+			}
+			const hasName = nameInput.value.trim().length > 0;
+			sheet.classList.toggle('hide-empty-name', !hasName);
+		};
+
+		syncPrintableNameVisibility();
+		if (nameInput) {
+			nameInput.addEventListener('input', syncPrintableNameVisibility);
+		}
+		window.addEventListener('beforeprint', syncPrintableNameVisibility);
+
 		printButton.addEventListener('click', () => {
+			syncPrintableNameVisibility();
 			window.print();
 		});
 	};
