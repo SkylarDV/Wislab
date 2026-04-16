@@ -72,49 +72,41 @@
 			font-size: 14px;
 		}
 
-		.exercise-list {
-			column-count: 2;
-			column-gap: 14mm;
+		/* table layout: two columns, 10 rows, sized to fit the sheet area */
+		.exercise-list,
+		#exerciseList {
+			display: block;
+			height: 100%;
 		}
 
-		.term-b.blank{
-			display:inline-block;
-			min-width:2.5ch;
-			border-bottom: none;
-			text-align:center;
-			padding-bottom:0;
+		.exercise-table {
+			width: 100%;
+			height: 100%;
+			border-collapse: collapse;
+			table-layout: fixed;
 		}
 
-		#exerciseList{ 
-			align-self: center;
+		.exercise-table td {
+			border: 1px solid rgba(0,0,0,0.65);
+			vertical-align: top;
+			padding: 6mm 5mm;
+			box-sizing: border-box;
 		}
 
-		.exercise-row {
-			break-inside: avoid;
-			font-size: 22px;
-			line-height: 1.9;
-			white-space: nowrap;
-			display: grid;
-			grid-template-columns: 3ch 1ch 3ch 1ch 1fr;
-			align-items: center;
-			column-gap: 10px;
-			margin-bottom: 10px; 
-			font-family: "Segoe UI", Arial, sans-serif;
-			font-variant-numeric: tabular-nums;
+		.exercise-table tbody tr {
+			height: calc(100% / 10);
 		}
 
-		.term-a,
-		.term-b {
-			text-align: center;
+		.exercise-title {
+			font-size: 18px;
+			line-height: 1;
+			text-align: left;
+			margin-bottom: 5mm;
 		}
 
-		.op,
-		.eq {
-			text-align: center;
-		}
-
-		.answer-space {
-			min-height: 20px;
+		.work-area {
+			min-height: 1px;
+			height: calc(100% - 18px - 5mm);
 		}
 
 		.wizard-wrap {
@@ -155,13 +147,54 @@
 				box-shadow: none;
 				margin: 0;
 				width: 100%;
-				min-height: auto;
+				height: calc(297mm - 20mm);
+				min-height: calc(297mm - 20mm);
 				padding: 0;
+				grid-template-rows: auto auto minmax(0, 1fr) auto;
+				row-gap: 4mm;
+			}
+
+			h1 {
+				font-size: 28px;
+				margin: 0 0 4mm;
+			}
+
+			.meta {
+				margin: 0;
+			}
+
+			.exercise-list,
+			#exerciseList {
+				height: 100%;
+				min-height: 0;
+				overflow: hidden;
+			}
+
+			.exercise-table {
+				height: 100%;
+			}
+
+			.exercise-table td {
+				padding: 5mm 5mm;
+			}
+
+			.exercise-title {
+				font-size: 18px;
+				margin-bottom: 4mm;
+			}
+
+			.wizard-wrap {
+				margin-top: 0;
+				height: 26mm;
+				display: flex;
+				align-items: flex-end;
+				justify-content: center;
 			}
 
 			.wizard {
-				width: 400px;
-				max-width: 60%;
+				width: auto;
+				max-width: 62%;
+				max-height: 24mm;
 			}
 		}
 	</style>

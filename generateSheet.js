@@ -1,6 +1,6 @@
 (() => {
 	const STORAGE_KEY = 'wislabWorksheet';
-	const EXERCISE_COUNT = 30;
+	const EXERCISE_COUNT = 20;
 
 	const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -372,72 +372,50 @@
 		const maxLabel = data.max === '100' ? 'tot 100' : 'tot 20';
 		meta.textContent = `Tellen ${maxLabel}`;
 
-		exercises.forEach((exercise) => {
-			const match = exercise.text.match(/^(\d+)\s*([+-])\s*(\d+)\s*=\s*$/);
-			if (!match) {
-				return;
+		// build a 2-column x 10-row table so the sheet fits one A4 page
+		list.innerHTML = '';
+
+		const table = document.createElement('table');
+		table.className = 'exercise-table';
+		const tbody = document.createElement('tbody');
+
+		let currentRow = null;
+		exercises.forEach((exercise, idx) => {
+			if (idx % 2 === 0) {
+				currentRow = document.createElement('tr');
 			}
 
-			const [, firstNumber, operator, secondNumber] = match;
-			const row = document.createElement('div');
-			row.className = 'exercise-row';
+			const cell = document.createElement('td');
+			cell.className = 'grid-cell';
 
-			const first = document.createElement('span');
-			first.className = 'term-a';
-			first.textContent = firstNumber;
+			const title = document.createElement('div');
+			title.className = 'exercise-title';
+			title.textContent = exercise.text;
 
-			const op = document.createElement('span');
-			op.className = 'op';
-			op.textContent = operator;
+			const work = document.createElement('div');
+			work.className = 'work-area';
 
-			const isFillUnit = exercise.type === 'TE+E=T' || exercise.type === 'TE-E=T';
+			cell.appendChild(title);
+			cell.appendChild(work);
 
-			if (isFillUnit) {
-				const blank = document.createElement('span');
-				blank.className = 'term-b blank';
-				blank.textContent = '';
+			currentRow.appendChild(cell);
 
-				const eq = document.createElement('span');
-				eq.className = 'eq';
-				eq.textContent = '=';
-
-				const target = document.createElement('span');
-				target.className = 'answer-space';
-				if (typeof exercise.rhs !== 'undefined') {
-					target.textContent = String(exercise.rhs);
-				} else {
-					const a = parseInt(firstNumber, 10);
-					const b = parseInt(secondNumber, 10);
-					if (operator === '+') target.textContent = String(a + b);
-					else target.textContent = String(a - b);
-				}
-
-				row.appendChild(first);
-				row.appendChild(op);
-				row.appendChild(blank);
-				row.appendChild(eq);
-				row.appendChild(target);
-			} else {
-				const second = document.createElement('span');
-				second.className = 'term-b';
-				second.textContent = secondNumber;
-
-				const eq = document.createElement('span');
-				eq.className = 'eq';
-				eq.textContent = '=';
-
-				const answer = document.createElement('span');
-				answer.className = 'answer-space';
-
-				row.appendChild(first);
-				row.appendChild(op);
-				row.appendChild(second);
-				row.appendChild(eq);
-				row.appendChild(answer);
+			if (idx % 2 === 1) {
+				tbody.appendChild(currentRow);
+				currentRow = null;
 			}
-
-			list.appendChild(row);
 		});
+
+		// if odd count, append an empty cell to complete the last row
+		if (currentRow) {
+			const emptyCell = document.createElement('td');
+			emptyCell.className = 'grid-cell';
+			currentRow.appendChild(emptyCell);
+			tbody.appendChild(currentRow);
+		}
+
+		table.appendChild(tbody);
+		list.appendChild(table);
 
 		printButton.addEventListener('click', () => {
 			window.print();
