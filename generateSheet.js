@@ -371,8 +371,10 @@
 			return;
 		}
 
-		const maxLabel = data.max === '100' ? 'tot 100' : 'tot 20';
-		meta.textContent = `Tellen ${maxLabel}`;
+		const defaultSubtitle = data.max === '100' ? 'Tellen Tot 100' : 'Tellen Tot 20';
+		if (meta) {
+			meta.value = defaultSubtitle;
+		}
 
 		// build a 2-column x 10-row table so the sheet fits one A4 page
 		list.innerHTML = '';

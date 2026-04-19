@@ -110,6 +110,21 @@
 			font-size: 14px;
 		}
 
+		.meta-input {
+			display: block;
+			width: 100%;
+			border: none;
+			background: transparent;
+			font-family: inherit;
+			font-size: 14px;
+			text-align: center;
+			padding: 0;
+		}
+
+		.meta-input:focus {
+			outline: none;
+		}
+
 		/* table layout: two columns, 10 rows, sized to fit the sheet area */
 		.exercise-list,
 		#exerciseList {
@@ -267,7 +282,7 @@
 				<input id="studentName" class="name-input" type="text" autocomplete="off">
 			</label>
 		</div>
-		<p id="worksheetMeta" class="meta"></p>
+		<input id="worksheetMeta" class="meta meta-input" type="text" autocomplete="off">
 		<div id="exerciseList" class="exercise-list"></div>
 		<div class="wizard-wrap">
 			<img class="wizard" src="assets/Wizard.png"/>
