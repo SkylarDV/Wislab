@@ -373,7 +373,14 @@
 
 		const defaultSubtitle = data.max === '100' ? 'Tellen Tot 100' : 'Tellen Tot 20';
 		if (meta) {
-			meta.value = defaultSubtitle;
+			const isInput = meta.tagName === 'INPUT' || meta.tagName === 'TEXTAREA';
+			if (isInput) {
+				if (!meta.value || meta.value.trim().length === 0) {
+					meta.value = defaultSubtitle;
+				}
+			} else if (!meta.textContent || meta.textContent.trim().length === 0) {
+				meta.textContent = defaultSubtitle;
+			}
 		}
 
 		// build a 2-column x 10-row table so the sheet fits one A4 page
