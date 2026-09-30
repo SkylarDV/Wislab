@@ -53,8 +53,17 @@
 				}
 			}
 		},
+		'E+TE=20': () => {
+			const a = randE();
+			return { text: formatExercise(a, '+', 20 - a), rhs: 20 };
+		},
+		'TE+E=20': () => {
+			const a = randomInt(11, 19);
+			return { text: formatExercise(a, '+', 20 - a), rhs: 20 };
+		},
 		'20-E': () => ({ text: formatExercise(20, '-', randE()) }),
 		'20-TE': () => ({ text: formatExercise(20, '-', randTE(19)) }),
+		'TE-10': () => ({ text: formatExercise(randomInt(11, 19), '-', 10) }),
 		'TE-E': () => {
 			const a = randTE(19);
 			return { text: formatExercise(a, '-', randomInt(1, a % 10)) };
