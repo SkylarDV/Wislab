@@ -151,10 +151,22 @@
 		}
 
 		.exercise-title {
+			display: grid;
+			grid-template-columns: max-content auto;
+			column-gap: 10px;
+			justify-content: start;
 			font-size: 18px;
 			line-height: 1;
 			text-align: left;
 			margin-bottom: 5mm;
+		}
+
+		.exercise-title.two-line {
+			row-gap: 30px;
+		}
+
+		.exercise-line {
+			display: contents;
 		}
 
 		.work-area {

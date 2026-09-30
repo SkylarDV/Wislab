@@ -1,6 +1,7 @@
 (() => {
 	const STORAGE_KEY = 'wislabWorksheet';
 	const EXERCISE_COUNT = 20;
+	const TWO_LINE_TYPES = new Set(['TE-TE', 'E+Emb', 'TE-Emb']);
 
 	const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -410,7 +411,29 @@
 
 			const title = document.createElement('div');
 			title.className = 'exercise-title';
-			title.textContent = exercise.text;
+
+			const firstLine = document.createElement('div');
+			firstLine.className = 'exercise-line';
+			const expression = document.createElement('span');
+			expression.textContent = exercise.text.slice(0, -1).trim();
+			const firstEquals = document.createElement('span');
+			firstEquals.textContent = '=';
+			firstLine.appendChild(expression);
+			firstLine.appendChild(firstEquals);
+			title.appendChild(firstLine);
+
+			if (TWO_LINE_TYPES.has(exercise.type)) {
+				title.classList.add('two-line');
+
+				const secondLine = document.createElement('div');
+				secondLine.className = 'exercise-line';
+				const secondEquals = document.createElement('span');
+				secondEquals.textContent = '=';
+				secondLine.appendChild(document.createElement('span'));
+				secondLine.appendChild(secondEquals);
+
+				title.appendChild(secondLine);
+			}
 
 			const work = document.createElement('div');
 			work.className = 'work-area';
