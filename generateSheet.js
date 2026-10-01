@@ -1,7 +1,7 @@
 (() => {
 	const STORAGE_KEY = 'wislabWorksheet';
 	const EXERCISE_COUNT = 20;
-	const TWO_LINE_TYPES = new Set(['TE-TE', 'E+Emb', 'TE-Emb']);
+	const TWO_LINE_TYPES = new Set(['TE-TE', 'TE+TEmb', 'TE-TEmb']);
 
 	const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -86,7 +86,7 @@
 		'E+Emb': () => {
 			const a = randE();
 			const b = randomInt(10 - a, 9);
-			return { text: formatExercise(a, '+', b) };
+			return { text: formatExercise(a, '+', b), rhs: a + b };
 		},
 		'TE+?=T': () => {
 			while (true) {
@@ -253,7 +253,7 @@
 				const maxB = Math.min(9, 100 - a);
 				if (minB <= maxB) {
 					const b = randomInt(minB, maxB);
-					return { text: formatExercise(a, '+', b) };
+					return { text: formatExercise(a, '+', b), rhs: a + b };
 				}
 			}
 		},
@@ -263,7 +263,7 @@
 				const unit = a % 10;
 				if (unit < 9) {
 					const b = randomInt(unit + 1, 9);
-					return { text: formatExercise(a, '-', b) };
+					return { text: formatExercise(a, '-', b), rhs: a - b };
 				}
 			}
 		},
@@ -442,7 +442,10 @@
 			}
 			title.appendChild(firstLine);
 
-			if (TWO_LINE_TYPES.has(exercise.type)) {
+			const needsTwoLines = TWO_LINE_TYPES.has(exercise.type) ||
+				((exercise.type === 'E+Emb' || exercise.type === 'TE-Emb') &&
+					(data.max === '100' ? exercise.rhs % 10 !== 0 : exercise.rhs !== 10));
+			if (needsTwoLines) {
 				title.classList.add('two-line');
 
 				const secondLine = document.createElement('div');
