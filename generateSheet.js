@@ -69,10 +69,10 @@
 			const a = randTE(19);
 			return { text: formatExercise(a, '-', randomInt(1, a % 10)) };
 		},
-		'TE-E=T': () => {
+		'TE-?=T': () => {
 			const a = randTE(19);
 			const b = a % 10;
-			return { text: formatExercise(a, '-', b), rhs: a - b };
+			return { text: formatExercise(a, '-', b), rhs: a - b, missingOperand: true };
 		},
 		'TE-TE': () => {
 			while (true) {
@@ -88,13 +88,13 @@
 			const b = randomInt(10 - a, 9);
 			return { text: formatExercise(a, '+', b) };
 		},
-		'TE+E=T': () => {
+		'TE+?=T': () => {
 			while (true) {
 				const a = randTE(19);
 				const unit = a % 10;
 				const b = 10 - unit;
 				if (b >= 1 && b <= 9) {
-					return { text: formatExercise(a, '+', b), rhs: a + b };
+					return { text: formatExercise(a, '+', b), rhs: a + b, missingOperand: true };
 				}
 			}
 		},
@@ -289,6 +289,9 @@
 		'H-E': () => ({ text: formatExercise(100, '-', randE()) }),
 		'H-TE': () => ({ text: formatExercise(100, '-', randTE(99)) })
 	};
+	
+	generators100['TE+?=T'] = () => Object.assign({}, generators100['TE+E=T'](), { missingOperand: true });
+	generators100['TE-?=T'] = () => Object.assign({}, generators100['TE-E=T'](), { missingOperand: true });
 
 	const getGenerators = (max) => (max === '100' ? generators100 : generators20);
 
@@ -415,11 +418,28 @@
 			const firstLine = document.createElement('div');
 			firstLine.className = 'exercise-line';
 			const expression = document.createElement('span');
-			expression.textContent = exercise.text.slice(0, -1).trim();
+			const isMissingOperand = exercise.missingOperand === true;
+			if (isMissingOperand) {
+				const [, left, operator] = exercise.text.match(/^(\d+)\s*([+-])/);
+				expression.textContent = `${left} ${operator}`;
+				title.classList.add('missing-operand');
+			} else {
+				expression.textContent = exercise.text.slice(0, -1).trim();
+			}
 			const firstEquals = document.createElement('span');
 			firstEquals.textContent = '=';
 			firstLine.appendChild(expression);
+			if (isMissingOperand) {
+				const answerSlot = document.createElement('span');
+				answerSlot.className = 'answer-slot';
+				firstLine.appendChild(answerSlot);
+			}
 			firstLine.appendChild(firstEquals);
+			if (isMissingOperand) {
+				const result = document.createElement('span');
+				result.textContent = exercise.rhs;
+				firstLine.appendChild(result);
+			}
 			title.appendChild(firstLine);
 
 			if (TWO_LINE_TYPES.has(exercise.type)) {
